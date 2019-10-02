@@ -17,8 +17,12 @@ package org.springframework.samples.petclinic.visit;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +30,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.owner.Bill;
 
 
 
@@ -59,8 +64,10 @@ public class Visit extends BaseEntity {
      */
     @Column(name = "pet_id")
     private Integer petId;
-    
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bill_id")
+    private Bill bill;
 
     /**
      * Creates a new instance of Visit for the current date
@@ -68,7 +75,6 @@ public class Visit extends BaseEntity {
     public Visit() {
         this.date = new Date();
     }
-
 
     /**
      * Getter for property date.
@@ -123,9 +129,5 @@ public class Visit extends BaseEntity {
     public void setPetId(Integer petId) {
         this.petId = petId;
     }
-
-
-    
-    
 
 }
